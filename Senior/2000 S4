@@ -1,0 +1,109 @@
+import java.io.*;
+import java.util.*;
+
+
+public class Solution {
+
+	static int[] clubs;
+	static int numClubs;
+	static int distance;
+	static TreeSet<Integer> checked = new TreeSet<Integer>();
+	static Queue<Node> checkNext = new LinkedList<Node>();
+	
+	public static void main(String[] args)
+	{
+		Scanner sc = new Scanner(System.in);
+		distance = sc.nextInt();
+		numClubs = sc.nextInt();
+		clubs = new int[numClubs];
+		for(int i = 0; i < numClubs; i ++)
+		{
+			clubs[i] = sc.nextInt();
+		}
+		int ans = solve();
+		if(ans < 0)
+		{
+			System.out.println("Roberta acknowledges defeat.");
+		}
+		else
+		{
+			System.out.println("Roberta wins in " + ans + " strokes.");
+		}
+	}
+	
+	public static int solve()
+	{
+		Node cur;
+		checkNext.add(new Node (0, null));
+		checked.add(0);
+		while(!checkNext.isEmpty())
+		{
+			
+			cur = checkNext.poll();
+			
+			for(int clubDist: clubs)
+			{
+				if(!checked.contains(clubDist + cur.value))
+				{
+					//win condition
+					if(clubDist + cur.value == distance)
+					{
+						return cur.dist();
+					}
+					if(clubDist + cur.value > distance)
+					{
+						continue;
+					}
+					
+					Node n = new Node(clubDist + cur.value, cur);
+					checked.add(clubDist + cur.value);
+					checkNext.add(n);
+					
+					
+				}
+			}
+			
+		}
+		return -1;
+	}
+	
+	
+	
+	
+	
+	
+	
+
+	
+	
+	
+	//////////node class
+	
+	static class Node
+	{
+		public int value;
+		public Node parent;
+		
+		
+		public Node(int v, Node p)
+		{
+			value = v;
+			parent = p;
+		}
+		
+		public int dist()
+		{
+			if(parent == null)
+			{
+				return 1;
+			}
+			else
+			{
+				return parent.dist() + 1;
+			}
+		}
+	}
+	
+}
+
+
