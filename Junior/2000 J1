@@ -1,0 +1,40 @@
+import java.io.*;
+import java.util.*;
+
+
+public class Solution {
+
+	
+	
+	public static void main(String[] args)
+	{
+		Scanner sc = new Scanner(System.in);
+		int start = sc.nextInt();
+		int days = sc.nextInt();
+		System.out.println("Sun Mon Tue Wed Thu Fri Sat");
+		for(int day = 2 - start; day <= days; day ++)
+		{
+			if((day + start - 2)% 7 != 0)
+			{
+				System.out.print(" ");
+			}
+			
+			if(day < 1)
+			{
+				System.out.print("   "); //3 spaces
+			}
+			else
+			{
+				System.out.print(String.format("%3d", day));
+			}
+			if((day + start - 2 )% 7 == 6)
+			{
+				System.out.println("");
+			}
+		}
+	//System.out.println("");
+
+	}
+}
+
+
