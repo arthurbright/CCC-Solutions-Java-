@@ -1,0 +1,78 @@
+import java.io.*;
+import java.util.*;
+import java.text.*;
+import java.math.*;
+import java.util.regex.*;
+
+public class Solution {
+
+	
+	public static void main(String[] args)
+	{
+		Scanner sc = new Scanner(System.in);
+		String inp = sc.nextLine();
+		int d = inp.indexOf('D');
+		int h = inp.indexOf('H');
+		int s = inp.indexOf('S');
+		String clubs = inp.substring(1, d);
+		String diamonds = inp.substring(d + 1, h);
+		String hearts = inp.substring(h + 1, s);
+		String spades = inp.substring(s + 1);
+		System.out.println("Cards Dealt" + String.format("%23s", "Points")); 
+		System.out.println("Clubs " + space(clubs) + String.format("%23d", getValue(clubs)));
+		System.out.println("Diamonds " + space(diamonds) + " \t" +  getValue(diamonds));
+		System.out.println("Hearts " + space(hearts) + " \t" + getValue(hearts));
+		System.out.println("Spades " + space(spades) + " \t" + getValue(spades));
+		System.out.println("Total " + (getValue(diamonds) + getValue(hearts) + getValue(spades) + getValue(clubs)));
+	}
+	
+	public static int getValue(String str)
+	{
+		int points = 0;
+		for(int i = 0; i < str.length(); i ++)
+		{
+			if(str.charAt(i) == 'A')
+			{
+				points += 4;
+			}
+			else if(str.charAt(i) == 'K')
+			{
+				points += 3;
+			}
+			else if(str.charAt(i) == 'Q')
+			{
+				points += 2;
+			}
+			else if(str.charAt(i) == 'J')
+			{
+				points += 1;
+			}
+		}
+		if(str.length() == 0)
+		{
+			points += 3;
+		}
+		else if(str.length() == 1)
+		{
+			points += 2;
+		}
+		else if(str.length() == 2)
+		{
+			points += 1;
+		}
+		return points;
+	}
+	
+	
+	public static String space(String str)
+	{
+		String s = "";
+		for(int i = 0; i < str.length(); i ++)
+		{
+			s = s + str.charAt(i) + " ";
+		}
+		return s;
+	}
+	
+   
+}
