@@ -1,0 +1,56 @@
+import java.io.*;
+import java.util.*;
+import java.text.*;
+import java.math.*;
+import java.util.regex.*;
+
+public class Solution {
+
+	static int coins;
+	static int mach1;
+	static int mach2;
+	static int mach3;
+	public static void main(String[] args)
+	{
+		Scanner sc = new Scanner(System.in);
+		coins = sc.nextInt();
+		mach1 = sc.nextInt();
+		mach2 = sc.nextInt();
+		mach3 = sc.nextInt();
+		int turn = 1;
+		while(coins > 0)
+		{
+			coins -= 1;
+			if(turn % 3 == 1)
+			{
+				mach1 ++;
+				if(mach1 % 35 == 0)
+				{
+					coins += 30;
+				}
+			}
+			else if(turn % 3 == 2)
+			{
+				mach2 ++;
+				if(mach2 % 100 == 0)
+				{
+					coins += 60;
+				}
+			}
+			else
+			{
+				mach3 ++;
+				if(mach3 % 10 == 0)
+				{
+					coins += 9;
+				}
+			}
+			turn ++;
+			
+		}
+		System.out.println("Martha plays " + (turn - 1) + " times before going broke.");
+		
+	}
+	
+   
+}
