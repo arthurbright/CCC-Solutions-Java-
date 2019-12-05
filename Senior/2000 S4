@@ -1,0 +1,62 @@
+import java.io.*;
+import java.util.*;
+import java.text.*;
+import java.math.*;
+import java.util.regex.*;
+
+public class Solution {
+
+	public static void main(String[] args)
+	{
+		Scanner sc = new Scanner(System.in);
+		int n = sc.nextInt();
+		ArrayList<Double> flows = new ArrayList<Double>();
+		
+		int stream;
+		int percentage;
+		double flow;
+		
+		
+		for(int i = 0; i < n; i ++)
+		{
+			flows.add((double) sc.nextInt());
+		}
+		while(true)
+		{
+			int inp = sc.nextInt();
+			if(inp == 77)
+			{
+				break;
+			}
+			else if(inp == 99)
+			{
+				stream = sc.nextInt() - 1;
+				percentage = sc.nextInt();
+				flow = flows.get(stream);
+				flows.add(stream, (double) percentage / 100 * flow);
+				flows.set(stream + 1, (double) (100 - percentage) / 100 * flow);
+				
+			}
+			else if(inp == 88)
+			{
+				stream = sc.nextInt() - 1;
+				flow = flows.get(stream + 1);
+				flows.remove(stream + 1);
+				flows.set(stream, flows.get(stream) + flow);
+			}
+		}
+		
+		for(int i = 0; i < flows.size(); i ++)
+		{
+			System.out.print((int)(flows.get(i) + 0.5) + " ");
+		}
+	}
+	
+   public static int f(int x)
+   {
+	   if(x > 1) return f(f(x- 2)) + 1;
+	   else if(x == 1) return 2;
+	   else return 1;
+	   
+   }
+}
