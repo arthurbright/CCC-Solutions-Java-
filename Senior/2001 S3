@@ -1,0 +1,124 @@
+import java.io.*;
+import java.util.*;
+
+public class Solution {
+
+	public static HashMap<Character, TreeSet<Character>> graph = new HashMap<Character, TreeSet<Character>>();
+	
+	public static void main(String[] args) throws IOException
+	{
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		String str;
+		Queue<String> edges = new LinkedList<String>();
+		
+		//add each edge
+		while(true)
+		{
+			str = br.readLine();
+			if(str.equals("**"))
+			{
+				break;
+			}
+			edges.add(str);
+			add(str);
+		}
+		
+		
+		String cur;
+		int roads = 0;
+		LinkedList<String> answers = new LinkedList<String>();
+		while(!edges.isEmpty()) {
+			cur = edges.poll();
+			remove(cur);
+			
+			//System.out.println(graph.get('A'));
+			
+			
+			if(!isConnected('A', 'B'))
+			{
+				roads ++;
+				answers.add(cur);
+				System.out.println(cur);
+			}
+			
+			
+			add(cur);
+		}
+		
+		System.out.println("There are " + roads + " disconnecting roads.");
+		
+		
+
+	}
+	/*
+	public static char getParent(char c)
+	{
+		if(graph.get(c).isEmpty())
+		{
+			return c;
+		}
+		else if(graph.get(c).first() > c)
+		{
+			return c;
+		}
+		else
+		{
+			return getParent(graph.get(c).first());
+		}
+	}
+	*/
+	public static boolean isConnected(char a, char b)
+	{
+		Queue<Character> toDo = new LinkedList<Character>();
+		TreeSet<Character> checked = new TreeSet<Character>();
+		toDo.add(a);
+		char cur;
+		char temp;
+		Iterator<Character> itr;
+		while(!toDo.isEmpty())
+		{
+			cur = toDo.poll();
+			checked.add(cur);
+			itr = graph.get(cur).iterator();
+			while(itr.hasNext()) 
+			{
+				temp = itr.next();
+				if(temp == b)
+				{
+					return true;
+				}
+				if(!checked.contains(temp))
+				{
+					toDo.add(temp);
+				}
+			}
+		}
+		return false;
+	}
+	public static void add(String str)
+	{
+		char a = str.charAt(0);
+		char b = str.charAt(1);
+		if(!graph.containsKey(a))
+		{
+			graph.put(a, new TreeSet<Character>());
+		}
+		if(!graph.containsKey(b))
+		{
+			graph.put(b, new TreeSet<Character>());
+		}
+		
+		graph.get(a).add(b);
+		graph.get(b).add(a);
+	}
+	public static void remove(String str)
+	{
+		char a = str.charAt(0);
+		char b = str.charAt(1);
+		
+		graph.get(a).remove(b);
+		graph.get(b).remove(a);
+	}
+	
+   
+}
