@@ -1,0 +1,78 @@
+import java.io.*;
+import java.util.*;
+
+public class Solution {
+
+	public static int[] xs;
+	public static int[] ys;
+	
+	public static void main(String[] args) throws IOException
+	{
+		Scanner sc = new Scanner(System.in);
+		
+		int numChips = sc.nextInt();
+		
+		xs = new int[numChips];
+		ys = new int[numChips];
+		
+		for(int i = 0; i < numChips; i ++)
+		{
+			xs[i] = sc.nextInt();
+			ys[i] = sc.nextInt();
+		}
+		
+		float maxDist = 0;
+		float cur;
+		int end1 = 0;
+		int end2 = 0;
+		
+		for(int i = 0; i < numChips - 1; i ++)
+		{
+			for(int k = i + 1; k < numChips; k ++)
+			{
+				cur = dist(k, i);
+				if(cur > maxDist)
+				{
+					maxDist = cur;
+					end1 = i;
+					end2 = k;
+				}
+			}
+		}
+		float midX = (xs[end1] + xs[end2])/(float)2;
+		float midY = (ys[end1] + ys[end2])/(float)2;
+		float a;
+		float b;
+		float c;
+		float newMax = 0;
+		
+		
+		//if any points outside of circle, use the circumradius formula to find the new diameter 
+		for(int i = 0; i < numChips; i ++)
+		{
+			if(  Math.pow((xs[i] - midX), 2) + Math.pow(ys[i] - midY, 2) > Math.pow(maxDist/2.0, 2))
+			{
+				a = dist(end1, end2);
+				b = dist(end1, i);
+				c = dist(end2, i);
+				if(circumradius(a, b, c) > newMax)
+				{
+					newMax = circumradius(a, b, c) * 2;
+				}
+				
+			}
+		}
+		
+
+		System.out.println(String.format("%.2f", Math.max(maxDist, newMax)));
+	}
+	
+	public static float circumradius(float a, float b, float c)
+	{
+		return (float) (a * b * c / Math.sqrt(   (a + b + c) * (a + b - c) * (a - b + c) * (-a + b + c)));
+	}
+	public static float dist(int a, int b)
+	{
+		return (float) Math.sqrt((xs[a] - xs[b]) * (xs[a] - xs[b]) + (ys[a] - ys[b]) * (ys[a] - ys[b]));
+	}
+}
