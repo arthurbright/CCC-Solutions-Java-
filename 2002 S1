@@ -1,0 +1,70 @@
+import java.io.*;
+import java.util.*;
+
+public class Solution {
+
+	public static int pink;
+	public static int green;
+	public static int red;
+	public static int orange;
+	public static int total;
+	
+	public static int numCombinations = 0;
+	public static int minimum = Integer.MAX_VALUE;
+	
+	public static void main(String[] args) throws IOException
+	{
+		Scanner sc = new Scanner(System.in);
+		pink = sc.nextInt();
+		green = sc.nextInt();
+		red = sc.nextInt();
+		orange = sc.nextInt();
+		total = sc.nextInt();
+		
+		int[] usedArray = {0, 0, 0, 0};
+		findWays(usedArray, total, 3);
+		
+		System.out.println("Total combinations is " + numCombinations + ".");
+		System.out.println("Minimum number of tickets to print is " + minimum + ".");
+		
+	}
+	
+	public static void findWays(int[] usedArray, int goal, int lastUsed)
+	{
+		if(goal < 0)
+		{
+			return;
+		}
+		else if(goal == 0)
+		{
+			System.out.println("# of PINK is " + usedArray[0] + " # of GREEN is " + usedArray[1] + " # of RED is " + usedArray[2] + " # of ORANGE is " + usedArray[3]);
+			numCombinations += 1;
+			int sum = usedArray[0] + usedArray[1] + usedArray[2] + usedArray[3];
+			if( sum < minimum)
+			{
+				minimum = sum;
+			}
+			return;
+		}
+		
+		else
+		{
+			for(int i = 0; i <= lastUsed; i ++)
+			{
+				int[] arr = Arrays.copyOf(usedArray, 4);
+				arr[i] += 1;
+				
+				int gg = goal;
+				if(i == 0) gg -= pink;
+				else if(i == 1) gg -= green;
+				else if(i == 2) gg -= red;
+				else gg -= orange;
+				
+				
+				findWays(arr, gg, i);
+				
+			}
+		}
+	}
+	
+}
