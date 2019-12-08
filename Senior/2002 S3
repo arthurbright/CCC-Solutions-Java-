@@ -1,0 +1,123 @@
+import java.io.*;
+import java.util.*;
+
+public class Solution {
+
+	public static char[][] grid;
+	public static char[] moves;
+	public static int width;
+	public static int height;
+
+	public static void main(String[] args) throws IOException
+	{
+		Scanner sc = new Scanner(System.in);
+
+		//get the grid
+		height = sc.nextInt();
+		width = sc.nextInt();
+		sc.nextLine();
+		grid = new char[height][width];
+		for(int i = 0; i < height; i ++)
+		{
+			String row = sc.nextLine();
+			for(int k = 0; k < width; k ++)
+			{
+				grid[i][k] = row.charAt(k);
+			}
+		}
+
+		//get the moves
+		int numMoves = sc.nextInt();
+		moves = new char[numMoves];
+		for(int i = 0; i < numMoves; i ++)
+		{
+			moves[i] = sc.next().charAt(0);
+		}
+
+
+		//test each case
+		
+		for(int i = 0; i < height; i ++)
+		{
+			for(int k = 0; k < width; k ++)
+			{
+				if(grid[i][k] == '.')
+				{
+					if(isPossible(i, k, 1) || isPossible(i, k, 2) || isPossible(i, k, 3) || isPossible(i, k, 0))
+					{
+						grid[i][k] = '*';
+					}
+				}
+			}
+		}
+
+
+		//print final answer
+		for(int i = 0; i < height; i ++)
+		{
+			for(int k = 0; k < width; k ++)
+			{
+				System.out.print(grid[i][k]);
+			}
+			System.out.println("");
+		}
+	}
+
+	//up = 0, right = 1, down = 2, left = 3
+
+	public static boolean isPossible(int r, int c, int dir)
+	{
+
+		for(int i = moves.length - 1; i >= 0; i --)
+		{
+			if(moves[i] == 'F')
+			{
+				r = R(r, dir);
+				c = C(c, dir);
+
+			}
+			else if(moves[i] == 'R')
+			{
+				dir = (dir + 3) % 4;
+			}
+			else
+			{
+				dir = (dir + 1) % 4;
+			}
+			
+
+			if(r < 0 || r >= height || c < 0 || c >= width)
+			{
+				return false;
+			}
+			else
+			{
+				if(grid[r][c] == 'X')
+				{
+					return false;
+				}
+			}
+			
+		}
+		return true;
+
+	}
+
+	//helper methods to advance location
+	public static int R(int r, int dir)
+	{
+		if(dir == 0) return r - 1;
+		if(dir == 2) return r + 1;
+		return r;
+	}
+	public static int C(int c, int dir)
+	{
+		if(dir == 1) return c + 1;
+		if(dir == 3) return c - 1;
+		return c;
+	}
+
+
+
+
+}
