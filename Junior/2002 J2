@@ -1,0 +1,37 @@
+import java.io.*;
+import java.util.*;
+
+public class Solution {
+
+	
+	
+	public static void main(String[] args) throws IOException
+	{
+		Scanner sc = new Scanner(System.in);
+		String str = sc.nextLine();
+		while(!str.equals("quit!"))
+		{
+			System.out.println(canadianify(str));
+			str = sc.nextLine();
+		}
+	}
+	
+	public static String canadianify(String str)
+	{
+		if(str.length() <= 4)
+		{
+			return str;
+		}
+		
+		if(str.lastIndexOf("or") == str.length() - 2)
+		{
+			char c = str.charAt(str.length() - 3);
+			if(c != 'a'  && c != 'e' && c != 'i' && c != 'o' && c != 'u' && c != 'y')
+			{
+				return str.substring(0, str.length() - 2) + "our";
+			}
+		}
+		return str;
+	}
+
+}
