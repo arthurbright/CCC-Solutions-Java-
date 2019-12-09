@@ -3,20 +3,30 @@ import java.util.*;
 
 public class Solution {
 
-	
+	public static String[] A;
+	public static String[] B;
+	public static int n;
+	public static int m;
+	public static int[] moveArray;
+	public static int finalLength;
 
 	public static void main(String[] args) throws IOException
 	{
 		Scanner sc = new Scanner(System.in);
 		
 		//getting m and n
-		int m = sc.nextInt();
-		int n = sc.nextInt();
+		m = sc.nextInt();
+		n = sc.nextInt();
 		sc.nextLine();
 		
 		//creating the arrays of the strings
-		String[] A = new String[n];
-		String[] B = new String[n];
+		A = new String[n];
+		B = new String[n];
+		
+		//this array will track which string used
+		moveArray = new int[41];
+		Arrays.fill(moveArray, -1);
+		
 		for(int i = 0; i < n; i ++)
 		{
 			A[i] = sc.nextLine();
@@ -27,105 +37,62 @@ public class Solution {
 		}
 		
 		
-		//create a list of possibilities to check with each iteration
-		Queue<String> toDoA = new LinkedList<String>();
-		Queue<String> toDoB = new LinkedList<String>();
-		Queue<String> nextToDoA = new LinkedList<String>();
-		Queue<String> nextToDoB = new LinkedList<String>();
-		
-		
-		//pad each string with spaces so it is easy to split at the end
-		for(int i = 0; i < n; i ++)
+		if(possible("", "", 0))
 		{
-			if(sameStart(A[i], B[i]))
+			System.out.println(finalLength + 1);
+			for(int i = 0; i < finalLength + 1; i ++)
 			{
-				if(A[i].equals(B[i]))
-				{
-					System.out.println(1);
-					System.out.println(i + 1);
-					System.exit(0);
-				}
-				toDoA.add(A[i] + " ");
-				toDoB.add(B[i] + " ");
+				System.out.println(moveArray[i] + 1);
 			}
 		}
-		//loop through the rest of the strings
-		String curA;
-		String curB;
-		String ans = null;
-		for(int i = 2; i <= m; i ++)
-		{
-			while(!toDoA.isEmpty())
-			{
-				curA = toDoA.poll();
-				curB = toDoB.poll();
-
-				//test adding each string to the to Do list
-				for(int k = 0; k < n; k ++)
-				{
-					
-					if(sameStart(removeSpace(curA + A[k]), removeSpace(curB + B[k])))
-					{
-						if((removeSpace(curA + A[k])).equals(removeSpace(curB + B[k])))
-						{
-							ans = curA + A[k];
-							System.out.println(i);
-							break;
-						}
-						nextToDoA.add(curA + A[k] + " ");
-						nextToDoB.add(curB + B[k] + " ");
-					}
-				}
-			}
-			toDoA = nextToDoA;
-			toDoB = nextToDoB;
-			
-			nextToDoA = new LinkedList<String>();
-			nextToDoB = new LinkedList<String>();
-			
-			
-			
-			if(ans != null)
-			{
-				break;
-			}
-		}
-		
-		
-		
-		
-		if(ans == null)
+		else
 		{
 			System.out.println("No solution.");
-			System.exit(0);
-		}
-		String[] words = ans.split(" ");
-		for(String word: words)
-		{
-			for(int i = 0; i < n; i ++)
-			{
-				if(A[i].equals(word))
-				{
-					System.out.println(i + 1);
-					break;
-				}
-			}
 		}
 		
+		
+	}
+	
+	//recursive solving function
+	public static boolean possible(String a, String b, int length)
+	{
+		//if length too long
+		if(length > m)
+		{
+			return false;
+		}
+		//if conditions met
+		else if(a.contentEquals(b) && length != 0)
+		{
+			return true;
+		}
+		//if strings dont even start the same way
+		else if(!sameStart(a, b))
+		{
+			return false;
+		}
+		else
+		{
+			int i = 0;
+			boolean foundAns = false;
+			while(i < n && !foundAns)
+			{
+				finalLength = length;
+				moveArray[length] = i;
+				foundAns = possible(a + A[i], b + B[i], length + 1);
+				i += 1;
+			}
+			return foundAns;
+		}
 		
 	}
 	
 	//helper function that checks if two strings can even satisfy the requirements
 	public static boolean sameStart(String a, String b)
 	{
-		return a.indexOf(b) == 0 || b.indexOf(a) == 0;
+		return a.startsWith(b) || b.startsWith(a);
 	}
 	
-	//helper function to remove spaces
-	public static String removeSpace(String str)
-	{
-		return str.replaceAll(" ", "");
-	}
 	
 
 
