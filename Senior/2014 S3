@@ -1,0 +1,72 @@
+import java.io.*;
+import java.util.*;
+
+public class Solution {
+
+	
+
+	public static void main(String[] args) throws IOException
+	{
+		Scanner sc = new Scanner(System.in);
+		int numRuns = sc.nextInt();
+		for(int i = 0; i < numRuns; i ++)
+		{
+			int numCars = sc.nextInt();
+			Stack<Integer> cars = new Stack<Integer>();
+			for(int k = 0; k < numCars; k ++) 
+			{
+				cars.push(sc.nextInt());
+				
+			}
+			if(calculate(cars))
+			{
+				System.out.println("Y");
+			}
+			else
+			{
+				System.out.println("N");
+			}
+		}
+
+	}
+	
+	public static boolean calculate(Stack<Integer> mountain)
+	{
+		Stack<Integer> branch = new Stack<Integer>();
+		LinkedList<Integer> lake = new LinkedList<Integer>();
+		int numCars = mountain.size();
+		
+		while(mountain.size() != 0)
+		{
+			if(mountain.peek() == lake.size() + 1)
+			{
+				lake.add(mountain.pop());
+			}
+			else if(branch.size() > 0 && branch.peek() == lake.size() + 1)
+			{
+				lake.add(branch.pop());
+			}
+			else
+			{
+				branch.push(mountain.pop());
+			}
+		}
+		int size = branch.size();
+		for(int i = 0; i < size; i ++)
+		{
+			if(branch.peek() == lake.size() + 1)
+			{
+				lake.add(branch.pop());
+			}
+			else
+			{
+				return false;
+			}
+		}
+		return true;
+	}
+
+	
+
+
+}
