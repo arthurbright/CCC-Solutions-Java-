@@ -1,0 +1,81 @@
+import java.io.*;
+import java.util.*;
+
+public class Solution {
+
+	//public static HashMap<String, Integer> times = new HashMap<String, Integer>();
+	public static String[] names;
+	public static int[] times;
+	public static int[] groupEnds;
+	public static int[] bestTimes;
+	
+	public static void main(String[] args)
+	{
+		Scanner sc = new Scanner(System.in);
+		//getting the values
+		int max = sc.nextInt();
+		int people = sc.nextInt();
+		names = new String[people];
+		times = new int[people];
+		
+		//add people to  the arrays
+		for(int i = 0; i < people; i ++)
+		{
+			names[i] = sc.next();
+			times[i] = sc.nextInt();
+		}
+		
+		//using dynamic programming 
+		bestTimes = new int[people + 1];
+		groupEnds = new int[people + 1];
+		Arrays.fill(bestTimes, Integer.MAX_VALUE);
+		Arrays.fill(groupEnds, -1);
+		bestTimes[0] = 0;
+		groupEnds[0] = 0;
+
+		//i is the current queue size. start from a size of 0 people, and slowly increase
+		//basically backwards recursion
+		
+		for(int i = 0; i < people; i ++)
+		{
+			int cur = 0; //this is the time that each group tested will take
+			//k is how many people in the group
+			for(int k = 0; k < max && i + k < people; k ++)
+			{
+				cur = Math.max(cur, times[i + k]);
+				if(bestTimes[i] + cur < bestTimes[i + k + 1])
+				{
+					bestTimes[i + k + 1] = bestTimes[i] + cur;
+					groupEnds[i + k] = k +1;
+				}
+				
+			}
+		}
+		
+		System.out.println("Total Time: " + bestTimes[people]);
+		
+		int[] finalEnds = new int[people];
+		Arrays.fill(finalEnds, -1);
+		
+		int curEnd = people - 1;
+		while(curEnd >= 0)
+		{
+			finalEnds[curEnd] = 1;
+			curEnd -= groupEnds[curEnd];
+		}
+		for(int i = 0; i < people; i ++)
+		{
+			System.out.print(names[i] + " ");
+			if(finalEnds[i] == 1)
+			{
+				System.out.println();
+			}
+		}
+		
+	}
+	
+	
+	
+	
+   
+}
