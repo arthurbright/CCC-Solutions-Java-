@@ -1,0 +1,50 @@
+import java.util.*;
+
+public class CCC {
+
+	public static void main (String[] args)
+	{
+		Scanner sc = new Scanner(System.in);
+		HashMap<Integer, Integer> paths = new HashMap<Integer, Integer>();
+		paths.put(54, 19);
+		paths.put(90, 48);
+		paths.put(99, 77);
+		
+		paths.put(9, 34);
+		paths.put(40, 64);
+		paths.put(67, 86);
+		
+		int place = 1;
+		
+		while(true)
+		{
+			int inp = sc.nextInt();
+			if(inp == 0)
+			{
+				System.out.println("You Quit!");
+				break;
+			}
+			else if (inp + place > 100)
+			{
+				System.out.println("You are now on square " + place);
+				continue;
+			}
+			else if (inp + place == 100)
+			{
+				System.out.println("You are now on square " + 100);
+				System.out.println("You Win!");
+				break;
+			}
+			else
+			{
+				place += inp;
+				if(paths.containsKey(place))
+				{
+					place = paths.get(place);
+				}
+				System.out.println("You are now on square " + place);
+			}
+		}
+	}
+
+}
