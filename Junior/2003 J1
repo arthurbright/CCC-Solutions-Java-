@@ -1,0 +1,44 @@
+import java.util.*;
+
+public class CCC {
+
+	public static void main (String[] args)
+	{
+		Scanner sc = new Scanner(System.in);
+		int tineLength = sc.nextInt();
+		int spacing = sc.nextInt();
+		int handleLength = sc.nextInt();
+		
+		for(int i = 0 ; i < tineLength; i ++)
+		{
+			System.out.print("*");
+			for(int k = 0; k < spacing; k ++)
+			{
+				System.out.print(" ");
+			}
+			System.out.print("*");
+			for(int k = 0; k < spacing; k ++)
+			{
+				System.out.print(" ");
+			}
+			System.out.print("*\n");
+			
+		}
+		
+		for(int i = 0; i < spacing * 2 + 3; i ++)
+		{
+			System.out.print("*");
+		}
+		System.out.println();
+		
+		for(int i = 0 ; i < handleLength; i ++)
+		{
+			for(int k = 0; k < spacing + 1; k ++)
+			{
+				System.out.print(" ");
+			}
+			System.out.println("*");
+		}
+	}
+
+}
