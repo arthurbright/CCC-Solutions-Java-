@@ -1,0 +1,167 @@
+import java.util.*;
+
+public class CCC {
+
+	static int rows;
+	static int cols;
+
+	static String[][] grid;
+	static boolean[][] checked;
+	static int roomIndex = 0;
+	
+	public static HashMap<Integer, Integer> roomSizes = new HashMap<Integer, Integer>();
+	
+	public static void main (String[] args)
+	{
+		//variables
+		Scanner sc = new Scanner(System.in);
+		int money = sc.nextInt();
+		rows = sc.nextInt();
+		cols = sc.nextInt();
+		sc.nextLine();
+		
+		
+		grid = new String[rows][cols];
+		checked = new boolean[rows][cols];
+
+		
+		//get the grid
+		for(int row = 0; row < rows; row ++)
+		{
+			String k = sc.nextLine();
+			for(int col = 0; col < cols; col ++)
+			{
+				grid[row][col] = k.charAt(col) + "";
+			}
+		}
+		
+
+		//print(grid);
+		
+	
+		getRooms();
+		
+		//now the room sizes should be in a hashmap
+		//we need to convert it into an arrayList and sort it
+		
+		ArrayList<Integer> sizes = new ArrayList<Integer>();
+		for(int i = 0; i < roomIndex; i ++)
+		{
+			sizes.add(roomSizes.get(i));
+		}
+		
+		Collections.sort(sizes);
+		
+		
+		//now run through the sizes and see how many room can be made
+		
+		
+		
+		int roomsMade = 0;
+		for(int i = sizes.size() - 1; i >= 0; i --)
+		{
+			if(money >= sizes.get(i))
+			{
+				roomsMade += 1;
+				money -= sizes.get(i);
+			}
+			else
+			{
+				break;
+			}
+		}
+		if(roomsMade == 1)
+		{
+			System.out.println(roomsMade + " room, " + money + " square metre(s) left over");
+		}
+		else	
+		{
+			System.out.println(roomsMade + " rooms, " + money + " square metre(s) left over");
+		}
+		
+		
+		
+		
+	}
+	
+	
+	//this is the function that will get all the rooms into an arrayList
+	public static void getRooms()
+	{
+		roomIndex = 0;
+		for(int row = 0; row < rows; row ++)
+		{
+			for(int col = 0; col < cols; col ++)
+			{
+				if(grid[row][col].equals("."))
+				{
+					roomSizes.put(roomIndex, 0);
+					MarkRoom(row, col, roomIndex);
+					roomIndex += 1;
+				}
+			}
+		}
+	}
+	
+	public static void MarkRoom(int row, int col, int roomIndex)
+	{
+		//increment room size by 1
+		roomSizes.put(roomIndex, roomSizes.get(roomIndex) + 1);
+		
+		//mark it in the grid
+		grid[row][col] = "" + roomIndex;
+		
+		//recursive call for the adjacent 4 grid elements
+		try
+		{
+			if(grid[row + 1][col].equals("."))
+			{
+				MarkRoom(row + 1, col, roomIndex);
+			}
+		}
+		catch(Exception e) {}
+		
+		try
+		{
+			if(grid[row - 1][col].equals("."))
+			{
+				MarkRoom(row - 1, col, roomIndex);
+			}
+		}
+		catch(Exception e) {}
+		
+		try
+		{
+			if(grid[row][col + 1].equals("."))
+			{
+				MarkRoom(row, col + 1, roomIndex);
+			}
+		}
+		catch(Exception e) {}
+		
+		try
+		{
+			if(grid[row][col - 1].equals("."))
+			{
+				MarkRoom(row, col - 1, roomIndex);
+			}
+		}
+		catch(Exception e) {}
+	}
+	
+	
+	
+	//print function to help visualize
+	public static void print(char[][] grid)
+	{
+		for(int i = 0; i < rows; i ++)
+		{
+			for(int k = 0; k < cols; k ++)
+			{
+				System.out.print(grid[i][k]);
+			}
+			System.out.println();
+		}
+	}
+
+}
