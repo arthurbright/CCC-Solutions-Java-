@@ -1,0 +1,43 @@
+import java.util.*;
+
+public class CCC {
+
+	
+
+	public static void main (String[] args)
+	{
+		Scanner sc = new Scanner(System.in);
+		String key = sc.next();
+		sc.nextLine();
+		String line = sc.nextLine();
+		
+		key = key.toUpperCase();
+		int[] shifts = new int[key.length()];
+		for(int i = 0; i < key.length(); i ++)
+		{
+			shifts[i] = (int) key.charAt(i) - 65;
+			
+		}
+		
+		String newLine = "";
+		for(int i = 0; i < line.length(); i ++)
+		{
+			if(line.charAt(i) >= 65 && line.charAt(i) <= 90)
+			{
+				newLine += line.charAt(i);
+			}
+		}
+		
+		String encrypted = "";
+		for(int i = 0; i < newLine.length(); i ++)
+		{
+			int shiftIndex = i % shifts.length;
+			int temp = newLine.charAt(i) + shifts[shiftIndex];
+			if(temp > 90) temp -= 26;
+			encrypted += (char) temp;
+			
+		}
+		
+		System.out.println(encrypted);
+	}
+}
