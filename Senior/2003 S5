@@ -1,0 +1,119 @@
+import java.util.*;
+
+public class CCC {
+
+	//static int[][] maxWeights;
+	static TreeMap<Integer, Integer>[] maxWeights;
+	static int[] destinationCities;
+	static int destinations, cities, roads;
+	static int a, b, maxWeight, k, tempMaxWeight, cur;
+	static int[] maxValue;
+	static boolean[] visited;
+
+
+	public static void main (String[] args)
+	{
+		//variables	
+		Scanner sc = new Scanner(System.in);
+		cities = sc.nextInt();
+		roads = sc.nextInt();
+		destinations = sc.nextInt();
+		
+		
+		//maxWeights = new int[cities + 1][cities + 1];
+		maxWeights = new TreeMap[cities + 1];
+		
+		
+		destinationCities = new int[destinations];
+
+		//adding roads to graph
+
+		for(int i = 0; i < roads; i ++)
+		{
+			a = sc.nextInt();
+			b = sc.nextInt();
+			maxWeight = sc.nextInt();
+			
+			/*
+			if(maxWeight > maxWeights[a][b])
+			{
+				maxWeights[a][b] = maxWeight;
+				maxWeights[b][a] = maxWeight;
+			}
+			 
+*/
+			//do the adding here
+			if(maxWeights[a] == null) maxWeights[a] = new TreeMap<Integer, Integer>();
+			if(maxWeights[b] == null) maxWeights[b] = new TreeMap<Integer, Integer>();
+			
+			if(maxWeights[a].get(b) == null || maxWeights[a].get(b) < maxWeight)
+			{
+				maxWeights[a].put(b, maxWeight);
+				maxWeights[b].put(a, maxWeight);
+			}
+
+		}
+
+		//getting destinations
+		for(int i = 0; i < destinations; i ++)
+		{
+			destinationCities[i] = sc.nextInt();
+		}
+
+
+
+		///prims
+
+		maxValue = new int[cities + 1];
+		visited = new boolean[cities + 1];
+
+		maxValue[1] = Integer.MAX_VALUE;
+		visited[1] = true;
+
+
+
+		cur = 1;
+
+
+		while(true)
+		{
+			visited[cur] = true;
+			tempMaxWeight = 0;
+			k = cur;
+			cur = -1;
+			for(int i = 1; i <= cities; i ++)
+			{
+				try {
+					if(maxValue[i] < Math.min(maxValue[k], maxWeights[k].get(i)))
+					{
+						maxValue[i] = Math.min(maxValue[k], maxWeights[k].get(i));
+					}
+				}
+				catch(Exception e) {}
+				if(maxValue[i] >= tempMaxWeight && !visited[i])
+				{
+					tempMaxWeight = maxValue[i];
+					cur = i;
+				}
+			}
+
+			if(cur == -1)
+			{
+				break;
+			}
+		}
+
+		//get the min value
+		int min = Integer.MAX_VALUE;
+		for(int i = 0; i < destinations; i ++)
+		{
+			if(min > maxValue[destinationCities[i]])
+			{
+				min = maxValue[destinationCities[i]];
+			}
+
+		}
+
+		System.out.println(min);
+	}
+}
