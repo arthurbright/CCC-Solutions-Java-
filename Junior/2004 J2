@@ -1,0 +1,18 @@
+import java.util.*;
+
+public class CCC {
+
+	
+
+	public static void main (String[] args)
+	{
+		Scanner sc = new Scanner(System.in);
+		int year = sc.nextInt();
+		int lastYear = sc.nextInt();
+		
+		for(int k = year; k <= lastYear; k += 60)
+		{
+			System.out.println("All positions change in year " + k);
+		}
+	}
+}
