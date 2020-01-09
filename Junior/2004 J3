@@ -1,0 +1,34 @@
+import java.util.*;
+
+public class CCC {
+
+	
+
+	public static void main (String[] args)
+	{
+		Scanner sc = new Scanner(System.in);
+		int adj = sc.nextInt();
+		int noun = sc.nextInt();
+		
+		String[] adjs = new String[adj];
+		String[] nouns = new String[noun];
+		for(int i = 0; i < adj; i++)
+		{
+			adjs[i] = sc.next();
+			
+		}
+		for(int i = 0; i < noun; i++)
+		{
+			nouns[i] = sc.next();
+			
+		}
+		
+		for(int i = 0; i < adj; i ++)
+		{
+			for(int k = 0; k < noun; k ++)
+			{
+				System.out.println(adjs[i] + " as " + nouns[k]);
+			}
+		}
+	}
+}
