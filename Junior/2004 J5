@@ -1,0 +1,152 @@
+import java.util.*;
+
+public class CCC {
+
+
+
+	public static void main (String[] args)
+	{
+		Scanner sc = new Scanner(System.in);
+		int level = sc.nextInt();
+		int width = sc.nextInt();
+		int x = sc.nextInt();
+
+		int blockWidth = width/3;
+
+		if(level <= 1)
+		{
+			System.out.println(1);
+			System.exit(0);
+		}
+
+		boolean[][] grid = new boolean[3][3];
+		grid[0][1] = true;
+		
+
+
+		//check for each edge and expand
+		int lvl = 1;
+		while(lvl < level)
+		{
+			lvl += 1;
+			grid = expand(grid);
+			//check each spot to see if it should be colored in
+			for(int r = 0; r < grid.length; r ++)
+			{
+
+				//getting the next level within the grid
+				for(int c = 0; c < grid.length; c ++)
+				{
+					try {
+						change(grid, r, c);
+					}
+					catch(Exception e) {}
+				}
+				//getting the squares touching the edge
+				for(int i = 0; i < grid.length; i += 3)
+				{
+					if(!grid[0][i] && !grid[0][i + 1] && !grid[0][i + 2])
+					{
+						grid[0][i + 1] = true;
+					}
+				}
+			}
+
+		}
+		//expand grid to final size
+		while(grid.length < width)
+		{
+			grid = expand(grid);
+		}
+
+		//now final grid should be made. simply count edges
+		TreeSet<Integer> tree = new TreeSet<Integer>();
+
+		//vertical edges
+		for(int h = 0; h < grid.length; h ++)
+		{
+			if(grid[h][x - 1] != grid[h][x])
+			{
+				tree.add(h + 1);
+				tree.add(h + 2);
+			}
+		}
+
+		//horizontal edges
+
+		for(int h = 0; h < grid.length - 1; h ++)
+		{
+			if(grid[h][x-1] != grid[h + 1][x- 1])
+			{
+				tree.add(h + 2);
+			}
+
+			if(grid[h][x] != grid[h + 1][x])
+			{
+				tree.add(h + 2);
+			}
+		}
+
+		while(!tree.isEmpty())
+		{
+			System.out.print(tree.pollFirst() + " ");
+		}
+
+	}
+
+	public static boolean[][] expand(boolean[][] grid)
+	{
+		int size = grid.length;
+		boolean[][] newGrid = new boolean[size * 3][size * 3];
+		for(int i = 0; i < size * 3; i ++)
+		{
+			for(int k = 0; k < size * 3; k ++)
+			{
+				newGrid[i][k] = grid[i/3][k/3];
+			}
+		}
+		return newGrid;
+	}
+
+	public static void change(boolean[][] grid, int r, int c) throws Exception
+	{
+		//4 cases: up down left right
+		//case 1: up
+		if(grid[r + 1][c - 1] && grid[r + 1][c] && grid[r + 1][c + 1] && !grid[r][c + 1] && !grid[r][c - 1])
+		{
+			grid[r][c] = true;
+		}
+
+		//case 2: down
+		if(grid[r - 1][c - 1] && grid[r - 1][c] && grid[r - 1][c + 1] && !grid[r][c + 1] && !grid[r][c - 1])
+		{
+			grid[r][c] = true;
+		}
+
+		//case 3: left
+		if(grid[r - 1][c - 1] && grid[r][c - 1] && grid[r + 1][c-1] && !grid[r + 1][c] && !grid[r - 1][c])
+		{
+			grid[r][c] = true;
+		}
+
+		//case 4: right
+		if(grid[r - 1][c + 1] && grid[r][c + 1] && grid[r + 1][c+1] && !grid[r + 1][c] && !grid[r - 1][c])
+		{
+			grid[r][c] = true;
+		}
+	}
+
+	public static void print(boolean[][] grid)
+	{
+		for(int r = 0; r < grid.length; r ++)
+		{
+			for(int c = 0; c < grid[0].length; c ++)
+			{
+				if(grid[r][c]) System.out.print("X");
+				else System.out.print(".");
+			}
+
+			System.out.println();
+		}
+	}
+}
