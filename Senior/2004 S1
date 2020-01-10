@@ -1,0 +1,45 @@
+import java.util.*;
+
+public class CCC {
+
+
+
+	public static void main (String[] args)
+	{
+		Scanner sc = new Scanner(System.in);
+		int n = sc.nextInt();
+		String[] words = new String[3];
+
+		for(int i = 0; i < n; i ++)
+		{
+			words[0] = sc.next();
+			words[1] = sc.next();
+			words[2] = sc.next();
+
+			if(fixFree(words))
+			{
+				System.out.println("Yes");
+			}
+			else
+			{
+				System.out.println("No");
+			}
+		}
+	}
+
+	public static boolean fixFree (String[] words)
+	{
+		if(words[0].startsWith(words[1]) || words[0].startsWith(words[2]) || words[1].startsWith(words[0])
+				|| words[1].startsWith(words[2]) || words[2].startsWith(words[1]) || words[2].startsWith(words[0]))
+		{
+			return false;
+		}
+
+		if(words[0].endsWith(words[1]) || words[0].endsWith(words[2]) || words[1].endsWith(words[0])
+				|| words[1].endsWith(words[2]) || words[2].endsWith(words[1]) || words[2].endsWith(words[0]))
+		{
+			return false;
+		}
+		return true;
+	}
+}
