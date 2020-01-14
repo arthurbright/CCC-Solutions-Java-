@@ -1,0 +1,184 @@
+//lots of vector math!!!
+
+import java.util.*;
+import java.io.*;
+
+public class CCC {
+
+	static int[] position = new int[3];
+	static int[] destination = new int[3];
+	static int[] direction = new int[3];
+	//1 indicates facing that way, 2 indicates the top facing direction
+	
+	public static void main (String[] args)
+	{
+		Scanner sc = new Scanner(System.in);
+		for(int i = 0; i < 3; i ++)
+		{
+			position[i] = sc.nextInt();
+		}
+		for(int i = 0; i < 3; i ++)
+		{
+			destination[i] = sc.nextInt();
+		}
+		
+		direction[0] = 1;
+		direction[1] = 0;
+		direction[2] = 2;
+		
+		int moveLength;
+		String turnDirection;
+		
+		int forwardAxis = -1;
+		
+		
+		double minDistance = distance(position, destination);
+		while(true)
+		{
+			moveLength = sc.nextInt();
+			turnDirection = sc.next();
+			
+			//get the forward Axis
+			for(int i = 0; i < 3; i ++)
+			{
+				if(direction[i] == 1 || direction[i] == -1)
+				{
+					forwardAxis = i;
+				}
+			}
+			
+			//move it unit by unit
+			for(int i = 0; i < moveLength; i++)
+			{
+				position[forwardAxis] += direction[forwardAxis];
+				minDistance = Math.min(minDistance, distance(position, destination));
+			}
+			
+		
+			
+			
+			
+			
+			if(turnDirection.equals("E"))
+			{
+				break;
+			}
+			turn(turnDirection);
+		}
+		
+		System.out.println(String.format("%.2f", minDistance));
+		
+	}
+	
+	public static double distance(int[] a, int[]b)
+	{
+		return Math.sqrt( Math.pow(a[0] - b[0], 2) + Math.pow(a[1] - b[1], 2) + Math.pow(a[2] - b[2], 2));
+	}
+	
+	public static void turn(String c)
+	{
+		int forwardAxis = -1;
+		int upAxis = -1;
+		int sideAxis = -1;
+		
+		//get the axes
+		for(int i = 0; i < 3; i ++)
+		{
+			if(Math.abs(direction[i]) == 1)
+			{
+				forwardAxis = i;
+			}
+			else if(Math.abs(direction[i]) == 2)
+			{
+				upAxis = i;
+			}
+			else
+			{
+				sideAxis = i;
+			}
+		}
+		
+		
+		char t = c.charAt(0);
+		if(t == 'U')
+		{
+			direction[forwardAxis] = direction[forwardAxis] * -2;
+			direction[upAxis] = direction[upAxis] / 2;
+		}
+		else if(t == 'D')
+		{
+			direction[forwardAxis] = direction[forwardAxis] * 2;
+			direction[upAxis] = -direction[upAxis] / 2;
+		}
+		else if(t == 'L')
+		{
+			
+			//if up is positive
+			if(direction[upAxis] > 1)
+			{
+				if((forwardAxis + 1) % 3 == upAxis)
+				{
+					direction[sideAxis] = -direction[forwardAxis];
+					direction[forwardAxis] = 0;
+				}
+				else
+				{
+					direction[sideAxis] = direction[forwardAxis];
+					direction[forwardAxis] = 0;
+				}
+			}
+			else
+			{
+				if((forwardAxis + 1) % 3 == upAxis)
+				{
+					direction[sideAxis] = direction[forwardAxis];
+					direction[forwardAxis] = 0;
+				}
+				else
+				{
+					direction[sideAxis] = -direction[forwardAxis];
+					direction[forwardAxis] = 0;
+				}
+			}
+		}
+		else //if direction = R
+		{
+			//if up is positive
+			if(direction[upAxis] > 1)
+			{
+				if((forwardAxis + 1) % 3 == upAxis)
+				{
+					direction[sideAxis] = direction[forwardAxis];
+					direction[forwardAxis] = 0;
+				}
+				else
+				{
+					direction[sideAxis] = -direction[forwardAxis];
+					direction[forwardAxis] = 0;
+				}
+			}
+			else
+			{
+				if((forwardAxis + 1) % 3 == upAxis)
+				{
+					direction[sideAxis] = -direction[forwardAxis];
+					direction[forwardAxis] = 0;
+				}
+				else
+				{
+					direction[sideAxis] = direction[forwardAxis];
+					direction[forwardAxis] = 0;
+				}
+			}
+		}
+	}
+	
+	public static int sign(int num)
+	{
+		if(num >= 0)
+		{
+			return 1;
+		}
+		return -1;
+	}
+}
