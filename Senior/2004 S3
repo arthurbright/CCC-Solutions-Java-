@@ -1,0 +1,98 @@
+import java.util.*;
+import java.io.*;
+
+public class CCC {
+
+	static String[][] stringGrid;
+	static int[][] valueGrid;
+	
+	public static void main (String[] args)
+	{
+		Scanner sc = new Scanner(System.in);
+		stringGrid = new String[10][9];
+		valueGrid = new int[10][9];
+		//get the input grid
+		for(int r = 0; r < 10; r ++)
+		{
+			for(int k = 0; k < 9; k ++)
+			{
+				stringGrid[r][k] = sc.next();
+				valueGrid[r][k] = -1;
+			}
+		}
+
+
+
+
+		//loop to calculate all values
+		boolean changed = true;
+		String[] words;
+		while(changed)
+		{
+			changed = false;
+			for(int r = 0; r < 10; r ++)
+			{
+				for(int k = 0; k < 9; k ++)
+				{
+					//get each word
+					words = stringGrid[r][k].replace('+', ' ').split(" ");
+					
+					int acc = 0;
+					for(String word: words)
+					{
+						if(value(word) == -1)
+						{
+							acc = -1;
+							break;
+						}
+						else
+						{
+							acc += value(word);
+						}
+					}
+					
+					if(valueGrid[r][k] != acc)
+					{
+						changed = true;
+						valueGrid[r][k] = acc;
+					}
+
+				}
+			}
+		}
+
+
+		//printing the final answer
+		for(int i = 0; i < 10; i ++)
+		{
+			for(int k = 0; k < 9; k ++)
+			{
+				if(valueGrid[i][k] != -1)
+				{
+					System.out.print(valueGrid[i][k] + " ");
+				}
+				else
+				{
+					System.out.print("* ");
+				}
+			}
+			System.out.println();
+		}
+
+	}
+
+
+	
+	//read the value of a pair of coordinates
+	public static int value(String str)
+	{
+		if(str.charAt(0) >= 'A')
+		{
+			return valueGrid[str.charAt(0) - 'A'][str.charAt(1) - '1'];
+		}
+		else
+		{
+			return Integer.parseInt(str);
+		}
+	}
+}
