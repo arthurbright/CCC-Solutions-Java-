@@ -1,0 +1,163 @@
+import java.util.*;
+import java.io.*;
+
+public class CCC {
+
+	static int[][] maxValues;
+	static int[][] grid;
+	static int rows;
+	static int cols;
+
+	public static void main (String[] args)
+	{
+		Scanner sc = new Scanner(System.in);
+
+		while(true)
+		{
+			rows = sc.nextInt();
+			cols = sc.nextInt();
+
+			//if 0, 0, then just end
+			if(rows <= 0)
+			{
+				break;
+			}
+
+
+			//get the grid
+			maxValues = new int[rows][cols];
+			grid = new int[rows][cols];
+
+			String line;
+
+			for(int r = 0 ; r < rows; r ++)
+			{
+				line = sc.next();
+				for(int c = 0; c < cols; c ++)
+				{
+					maxValues[r][c] = -1;
+					grid[r][c] = value(line.charAt(c));
+
+				}
+			}
+
+			
+			//do the first column
+
+			maxValues[rows - 1][0] = grid[rows - 1][0];
+			for(int r = rows - 2; r >= 0; r --)
+			{
+				if(grid[r][0] == -1)
+				{
+					break;
+				}
+				else
+				{
+					maxValues[r][0] = maxValues[r + 1][0] + grid[r][0];
+				}
+			}
+
+			//do all the rest
+			calculate();
+			//print();
+
+
+		}
+
+
+
+
+
+	}
+
+	public static void print()
+	{
+		for(int i = 0; i < rows; i ++)
+		{
+			for(int k = 0; k < cols; k ++) 
+			{
+				System.out.print(maxValues[i][k] + " ");
+			}
+			System.out.println();
+		}
+	}
+
+	public static void calculate()
+	{
+
+		for(int c = 1; c < cols; c ++)
+		{
+			//take the values from the previous column and run them up and down in the new column
+			for(int start = 0; start < rows; start ++)
+			{
+				//start is the node that you start checking on
+				if(grid[start][c - 1] == -1)
+				{
+					continue; //if the start value is a wall
+				}
+				
+				//TODO its not checking straight forward
+				
+				//check up
+				int acc1  = maxValues[start][c - 1];
+
+
+
+				for(int cur = start; cur < rows; cur ++)
+				{
+					if(grid[cur][c] == -1)
+					{
+						break;
+					}
+					else
+					{
+						acc1 += grid[cur][c];
+						
+						if(maxValues[cur][c] < acc1)
+						{
+							maxValues[cur][c] = acc1;
+						}
+						
+					}
+				}
+
+				//check down
+				int accumulator  = maxValues[start][c - 1];
+				for(int cur = start; cur >= 0; cur --)
+				{
+					if(grid[cur][c] == -1)
+					{
+						break;
+					}
+					else
+					{
+						accumulator += grid[cur][c];
+						if(maxValues[cur][c] < accumulator)
+						{
+							maxValues[cur][c] = accumulator;
+						}
+					}
+				}
+
+			}
+
+		}
+		System.out.println(maxValues[rows - 1][cols - 1]);
+	}
+
+	public static int value(char c)
+	{
+		if(c == '.')
+		{
+			return 0;
+		}
+		else if (c == '*')
+		{
+			return -1;
+		}
+		else
+		{
+			return c - '0';
+		}
+	}
+}
