@@ -1,0 +1,39 @@
+import java.util.*;
+import java.io.*;
+
+public class CCC {
+
+	
+
+	public static void main (String[] args)
+	{
+		Scanner sc = new Scanner(System.in);
+		int start = sc.nextInt();
+		int end = sc.nextInt();
+		int acc = 0;
+		for(int i = start; i <= end; i ++)
+		{
+			if(RSA(i))
+			{
+				acc += 1;
+			}
+		}
+		
+		System.out.println("The number of RSA numbers between " + start + " and " +  end + " is " + acc);
+		
+	}
+	
+	public static boolean RSA(int num)
+	{
+		int acc = 0;
+		for(int i = 2; i <= num; i ++)
+		{
+			if(num % i == 0)
+			{
+				acc += 1;
+			}
+		}
+		
+		return acc == 3;
+	}
+}
