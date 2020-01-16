@@ -1,0 +1,144 @@
+import java.util.*;
+import java.io.*;
+
+public class CCC {
+
+	static int xDir;
+	static int yDir;
+
+	public static void main (String[] args)
+	{
+		Scanner sc = new Scanner(System.in);
+		int cols = sc.nextInt();
+		int rows = sc.nextInt();
+		int cutCols = sc.nextInt();
+		int cutRows = sc.nextInt();
+		int steps = sc.nextInt();
+		int tempSteps = 0;
+		int row = 0;
+		int col = cutCols;
+
+		xDir = 1;
+		yDir = 0;
+
+		boolean[][] visited = new boolean[rows][cols];
+
+		for(int r = 0; r < cutRows; r ++)
+		{
+			for(int c = 0; c < cutCols; c ++)
+			{
+				visited[r][c] = true;
+				visited[r][cols - 1 - c] = true;
+				visited[rows - 1 - r][c] = true;
+				visited[rows - 1 - r][cols - 1 - c] = true;
+			}
+		}
+		visited[0][cutCols] = true;
+
+	
+		
+		while(true)
+		{
+			tempSteps ++;
+			if(tempSteps > steps)
+			{
+				break;
+			}
+			//try turning left, then straight, then right
+			turnLeft();
+			try
+			{
+				
+				if(!visited[row + yDir][col + xDir])
+				{
+					row += yDir;
+					col += xDir;
+					visited[row][col] = true;
+					continue;
+				}
+			} catch (Exception e) {}
+			turnRight();
+			
+			
+			//try straight
+			try
+			{
+				
+				if(!visited[row + yDir][col + xDir])
+				{
+					row += yDir;
+					col += xDir;
+					visited[row][col] = true;
+					continue;
+				}
+			} catch (Exception e) {}
+			
+			
+			//try right
+			turnRight();
+			try
+			{
+				if(!visited[row + yDir][col + xDir])
+				{
+					row += yDir;
+					col += xDir;
+					visited[row][col] = true;
+					continue;
+				}
+			} catch (Exception e) {}
+
+			break;
+		}
+		System.out.println((col + 1));
+		System.out.println((row + 1));
+		
+		
+		
+		/*
+		for(int i = 0; i < rows; i ++)
+		{
+			for(int k = 0; k < cols; k ++)
+			{
+				if(visited[i][k])
+				{
+					System.out.print("1 ");
+				}
+				else
+				{
+					System.out.print("0 ");
+				}
+			}
+			System.out.println();
+		}
+		*/
+		
+	}
+
+	public static void turnLeft()
+	{
+		if(xDir != 0)
+		{
+			yDir = -xDir;
+			xDir = 0;
+		}
+		else
+		{
+			xDir = yDir;
+			yDir = 0;
+		}
+	}
+	
+	public static void turnRight()
+	{
+		if(xDir != 0)
+		{
+			yDir = xDir;
+			xDir = 0;
+		}
+		else
+		{
+			xDir = -yDir;
+			yDir = 0;
+		}
+	}
+}
