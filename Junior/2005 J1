@@ -1,0 +1,50 @@
+import java.util.*;
+import java.io.*;
+
+public class CCC {
+
+	
+
+	public static void main (String[] args)
+	{
+		Scanner sc = new Scanner(System.in);
+		int a = sc.nextInt();
+		int b = sc.nextInt();
+		int c = sc.nextInt();
+		
+		int planA = 0;
+		if(a >= 100)
+		{
+			planA += (a - 100) * 25;
+		}
+		planA += b * 15 + c * 20;
+		
+		int planB = 0;
+		if(a >= 250)
+		{
+			planB += (a - 250) * 45;
+		}
+		planB += b * 35 + c * 25;
+		
+		double pA = (double) planA/100;
+		double pB = (double) planB/100;
+		
+		
+		System.out.println("Plan A costs " + String.format("%.2f", pA));
+		System.out.println("Plan B costs " + String.format("%.2f", pB));
+		
+		if(planA > planB)
+		{
+			System.out.println("Plan B is cheapest.");
+		}
+		else if(planA < planB)
+		{
+			System.out.println("Plan A is cheapest.");
+		}
+		else
+		{
+			System.out.println("Plan A and B are the same price.");
+		}
+		
+	}
+}
