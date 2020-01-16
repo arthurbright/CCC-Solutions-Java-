@@ -1,0 +1,108 @@
+import java.util.*;
+import java.io.*;
+
+public class CCC {
+
+	static int xDir;
+	static int yDir;
+
+	public static void main (String[] args)
+	{
+		Scanner sc = new Scanner(System.in);
+		while(true)
+		{
+			String str = sc.nextLine();
+			if(str.equals("X"))
+			{
+				break;
+			}
+			else
+			{
+				if(monkeyWord(str))
+				{
+					System.out.println("YES");
+				}
+				else
+				{
+					System.out.println("NO");
+				}
+			}
+		}
+	}
+
+
+	public static boolean monkeyWord(String str)
+	{
+		//base case
+		if(str.length() <= 1)
+		{
+			return str.equals("A");
+		}
+
+		//recursive cases
+
+		//ends in na
+		if(str.endsWith("NA"))
+		{
+			return monkeyWord(str.substring(0, str.length() - 2));
+		}
+		//starts with an
+		else if(str.startsWith("AN"))
+		{
+			return monkeyWord(str.substring(2));
+		}
+		//by now, the string should start with B and end in s. if not, return false
+		else if(str.charAt(0) != 'B')
+		{
+			return false;
+		}
+		else if(str.charAt(str.length() - 1) != 'S')
+		{
+			return false;
+		}
+		//now, break it according to brackets (B and S are like open and closed brackets)
+		else
+		{
+			//we know that the first character is b, so we have to find the corresponding S.
+			int brackets = 1;
+			int indexS = -1;
+			for(int i = 1; i < str.length(); i ++)
+			{
+				if(str.charAt(i) == 'B')
+				{
+					brackets += 1;
+				}
+				else if(str.charAt(i) == 'S')
+				{
+					brackets -= 1;
+				}
+				if(brackets == 0)
+				{
+					indexS = i;
+					break;
+				}
+			}
+
+			//now we have the index of S.
+			if(indexS == -1)
+			{
+				return false;
+			}
+			else
+			{
+				if(indexS == str.length() - 1)
+				{
+					return monkeyWord(str.substring(1, indexS));
+				}
+				else
+				{
+					return str.charAt(indexS + 1) == 'N'  && monkeyWord(str.substring(1, indexS)) && monkeyWord(str.substring(indexS + 2));
+				}
+			}
+
+		}
+
+
+
+	}
+}
