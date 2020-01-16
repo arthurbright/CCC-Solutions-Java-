@@ -1,0 +1,52 @@
+import java.util.*;
+import java.io.*;
+
+public class CCC {
+
+	
+
+	public static void main (String[] args)
+	{
+		Scanner sc = new Scanner(System.in);
+		Stack<String> streets = new Stack<String>();
+		Stack<String> turns = new Stack<String>();
+		streets.push("HOME");
+		while(true)
+		{
+			turns.push(sc.next());
+			String street = sc.next();
+			if(street.equals("SCHOOL"))
+			{
+				break;
+			}
+			streets.push(street);
+		}
+		
+		
+		while(!streets.isEmpty())
+		{
+			String turn = turns.pop();
+			String street = streets.pop();
+			
+			String realTurn;
+			if(turn.equals("L")) {
+				realTurn = "RIGHT";
+			}
+			else
+			{
+				realTurn = "LEFT";
+			}
+			
+			
+			if(street.equals("HOME"))
+			{
+				System.out.println("Turn " + realTurn + " into your HOME.");
+				break;
+			}
+			else
+			{
+				System.out.println("Turn " + realTurn + " onto " + street + " street.");
+			}
+		}
+	}
+}
