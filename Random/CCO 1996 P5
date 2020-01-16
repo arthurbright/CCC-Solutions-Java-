@@ -1,0 +1,85 @@
+//finding the most recent common ancestor
+
+import java.util.*;
+import java.io.*;
+
+public class CCC {
+
+	static int[] parent;
+
+	public static void main (String[] args)
+	{
+		Scanner sc = new Scanner(System.in);
+
+		parent = new int[26];
+
+		int roads = sc.nextInt();
+		int queries = sc.nextInt();
+		int a;
+		int b;
+		for(int i = 0; i < roads; i ++)
+		{
+			a = sc.next().charAt(0) - 'A';
+			b = sc.next().charAt(0) - 'A';
+			parent[b] = a;
+
+		}
+
+		for(int i = 0; i < queries; i ++)
+		{
+			a = sc.next().charAt(0) - 'A';
+			b = sc.next().charAt(0) - 'A';
+			System.out.println(getQuery(a, b));
+		}
+
+	}
+	public static String getQuery(int a, int b)
+	{
+		String path = "";
+		String pathA = "" + (char) (a + 'A');
+		String pathB = "" + (char) (b + 'A');
+
+		//construct pathA and pathB using parent array
+		while(true)
+		{
+			if(a == 17)
+			{
+				break;
+			}
+			a = parent[a];
+			pathA += (char) (a + 'A');
+		}
+
+		while(true)
+		{
+			if(b == 17)
+			{
+				break;
+			}
+			b = parent[b];
+			pathB += (char) (b + 'A');
+		}
+
+		
+		
+		
+		//find the most recent one;
+		for(int i = 1; i < pathA.length(); i ++){
+			if(pathB.indexOf(pathA.charAt(i)) != -1)
+			{
+				String tempB = reverse(pathB);
+				return pathA.substring(0, i) + tempB.substring(tempB.indexOf(pathA.charAt(i)));
+			}
+		}
+		return "error";
+		
+	}
+	public static String reverse (String str)
+	{
+		String ans = "";
+		for(int i = 0; i < str.length(); i ++){
+			ans = str.charAt(i) + ans;
+		}
+		return ans;
+	}
+}
