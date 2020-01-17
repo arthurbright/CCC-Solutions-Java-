@@ -1,0 +1,65 @@
+import java.util.*;
+import java.io.*;
+
+public class CCC {
+
+	
+
+	public static void main (String[] args)
+	{
+		Scanner sc = new Scanner(System.in);
+
+		int num = sc.nextInt();
+		for(int i = 0; i < num; i++)
+		{
+			convert(sc.next());
+		}
+	}
+	
+	public static void convert(String str)
+	{
+		str = str.replace("-", "");
+		String ans = "";
+		for(int i = 0; i < 10; i ++)
+		{
+			if(str.charAt(i) >= 'A' && str.charAt(i) <= 'C')
+			{
+				ans += '2';
+			}
+			else if(str.charAt(i) >= 'D' && str.charAt(i) <= 'F')
+			{
+				ans += '3';
+			}
+			else if(str.charAt(i) >= 'G' && str.charAt(i) <= 'I')
+			{
+				ans += '4';
+			}
+			else if(str.charAt(i) >= 'J' && str.charAt(i) <= 'L')
+			{
+				ans += '5';
+			}
+			else if(str.charAt(i) >= 'M' && str.charAt(i) <= 'O')
+			{
+				ans += '6';
+			}
+			else if(str.charAt(i) >= 'P' && str.charAt(i) <= 'S')
+			{
+				ans += '7';
+			}
+			else if(str.charAt(i) >= 'T' && str.charAt(i) <= 'V')
+			{
+				ans += '8';
+			}
+			else if(str.charAt(i) >= 'W' && str.charAt(i) <= 'Z')
+			{
+				ans += '9';
+			}
+			else
+			{
+				ans += str.charAt(i);
+			}
+		}
+		ans = ans.substring(0, 3) + "-" + ans.substring(3, 6) + "-" + ans.substring(6);
+		System.out.println(ans); 
+	}
+}
