@@ -1,0 +1,100 @@
+import java.util.*;
+import java.io.*;
+
+public class CCC {
+
+
+
+	public static void main (String[] args)
+	{
+		Scanner sc = new Scanner(System.in);
+		int numBlocks = sc.nextInt();
+		int[][] grid = {{1}};
+		int[][] tempgrid;
+		int[][] lastgrid = {{1}};
+		for(int i = 0; i < numBlocks; i ++)
+		{
+			int rows = sc.nextInt();
+			int cols = sc.nextInt();
+
+			tempgrid = new int[rows][cols];
+			for(int r = 0; r < rows; r ++)
+			{
+				for(int c = 0; c < cols; c ++)
+				{
+					tempgrid[r][c] = sc.nextInt();
+				}
+			}
+
+			grid = new int [lastgrid.length * rows][lastgrid[0].length * cols];
+			for(int r = 0; r < grid.length; r ++)
+			{
+				for(int c = 0; c < grid[0].length; c ++)
+				{
+					grid[r][c] = tempgrid[r/lastgrid.length][c/lastgrid[0].length];
+					grid[r][c] *= lastgrid[r % lastgrid.length][c % lastgrid[0].length];
+				}
+			}
+			lastgrid = grid;
+
+		}
+
+		int max = Integer.MIN_VALUE;
+		int min = Integer.MAX_VALUE;
+		int maxRow = Integer.MIN_VALUE;
+		int minRow = Integer.MAX_VALUE;
+		int maxCol = Integer.MIN_VALUE;
+		int minCol = Integer.MAX_VALUE;
+
+		for(int r = 0; r < grid.length; r ++)
+		{
+			int columnSum = 0;
+			for(int c = 0; c < grid[0].length; c ++)
+			{
+				
+				if(grid[r][c] > max)
+				{
+					max = grid[r][c];
+				}
+				if(grid[r][c] < min)
+				{
+					min = grid[r][c];
+				}
+				columnSum += grid[r][c];
+			}
+			if(columnSum > maxCol)
+			{
+				maxCol = columnSum;
+			}
+			if(columnSum < minCol)
+			{
+				minCol = columnSum;
+			}
+			
+		}
+
+		for(int c = 0; c < grid[0].length; c ++)
+		{
+			int rowSum = 0;
+			for(int r = 0; r < grid.length; r ++)
+			{
+				rowSum += grid[r][c];
+			}
+			if(rowSum < minRow)
+			{
+				minRow = rowSum;
+			}
+			if(rowSum > maxRow)
+			{
+				maxRow = rowSum;
+			}
+		}
+
+		System.out.println(max);
+		System.out.println(min);
+		System.out.println(maxCol);
+		System.out.println(minCol);
+		System.out.println(maxRow);
+		System.out.println(minRow);
+	}
+}
