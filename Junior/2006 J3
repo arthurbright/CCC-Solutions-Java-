@@ -1,0 +1,50 @@
+import java.util.*;
+import java.io.*;
+
+public class CCC {
+
+	
+	public static void main (String[] args)
+	{
+
+		Scanner sc = new Scanner(System.in);
+		while(true)
+		{
+			String str = sc.next();
+			if(str.equals("halt"))
+			{
+				break;
+			}
+			
+			System.out.println(time(str));
+		}
+		
+	}
+	
+	public static int time(String str)
+	{
+		char c;
+		String acc = "p";
+		for(int i = 0; i < str.length(); i ++)
+		{
+			c = str.charAt(i);
+			String next = charToString(c);
+			if(acc.charAt(acc.length() - 1) == next.charAt(0))
+			{
+				acc += "pp";
+			}
+			acc += next;
+			
+			
+		}
+		return acc.length() - 1;
+	}
+	
+	public static String charToString(char c)
+	{
+		String[] strs = {"2", "22", "222", "3", "33", "333", "4", "44", "444", "5", "55", "555",
+				"6", "66", "666", "7", "77", "777", "7777", "8", "88", "888", "9", "99", "999", "9999"};
+		
+		return strs[(c - 'a')];
+	}
+}
