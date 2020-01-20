@@ -1,0 +1,83 @@
+import java.util.*;
+import java.io.*;
+
+//binary tree approach
+public class CCC {
+
+	static class Node
+	{
+		public int value;
+		public Node right, left;
+		public int rank;
+
+		public Node(int n)
+		{
+			value = n;
+			right = null;
+			left = null;
+			rank = 0;
+		}
+	}
+
+	static class Tree
+	{
+		public Node root;
+		
+		public Tree()
+		{
+			root = null;
+		}
+
+		public int add(int value)
+		{
+			int place;
+			int rank = 0;
+			if(root == null)
+			{
+				root = new Node(value);
+				return 0;
+			}
+			Node cur = root;
+			while(true)
+			{
+				if(value >= cur.value) 
+				{
+					cur.rank ++;
+					if(cur.right == null)
+					{
+						cur.right = new Node(value);
+						return rank;
+					}
+					cur = root.right;
+				}
+				else
+				{
+					rank += cur.rank + 1;
+					if(cur.left == null)
+					{
+						cur.left = new Node(value);
+						return rank;
+					}
+					cur = cur.left;
+				}
+			}
+		}
+	}
+
+
+	public static void main (String[] args)
+	{
+		Scanner sc = new Scanner(System.in);
+		int numScores = sc.nextInt();
+		Tree tree = new Tree();
+		int total = 0;
+		for(int i = 0; i < numScores; i ++)
+		{
+			int temp = tree.add(sc.nextInt()) + 1;
+			total += temp ;
+			
+		}
+		
+		System.out.printf("%.2f", (double) total / numScores);
+	}
+}
