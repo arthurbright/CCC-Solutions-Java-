@@ -1,0 +1,70 @@
+//simply loop through the sequence backwards, marking each person with a layer.
+
+
+import java.util.*;
+import java.io.*;
+
+public class CCC {
+
+	static class Node
+	{
+		public String name;
+		public Node parent;
+		
+		public Node(String n, Node p)
+		{
+			name = n;
+			parent = p;
+		}
+	}
+
+	public static void main (String[] args)
+	{
+		Scanner sc = new Scanner(System.in);
+		//count the number of levels
+		int lists = sc.nextInt();
+		int people;
+		String[] sequence;
+		
+		for(int i = 0; i < lists; i ++)			
+		{
+			people = sc.nextInt();
+			sequence = new String[people];
+			//write the sequence backwards
+			for(int k = people - 1; k >= 0; k --)
+			{
+				sequence[k] = sc.next();
+			}
+			
+			System.out.println(people * 10 - calculate(sequence) * 10);
+		}
+		
+
+	}
+	
+	public static int calculate(String[] sequence)
+	{
+		int layers = 0;
+		int max = 0;
+		ArrayList<String> checked = new ArrayList<String>();
+		for(int i = 0; i < sequence.length; i ++)
+		{
+			if(checked.contains(sequence[i]))	
+			{
+				layers -= 1;
+			}
+			else
+			{
+				layers += 1;
+				if(layers > max)
+				{
+					max = layers;
+				}
+				checked.add(sequence[i]);
+			}
+			//System.out.println(layers + ", " + sequence[i]);
+		}
+		
+		return (max - 1) * 2;
+	}
+}
