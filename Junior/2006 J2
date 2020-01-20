@@ -1,0 +1,45 @@
+import java.util.*;
+import java.io.*;
+
+public class CCC {
+
+	
+	public static void main (String[] args)
+	{
+		int ways;
+		Scanner sc = new Scanner(System.in);
+		int m = sc.nextInt();
+		int n = sc.nextInt();
+		if(m >= 9 && n >= 9)
+		{
+			ways = 9;
+		}
+		
+		else if(m >= 9 && n < 9)
+		{
+			ways = n;
+		}
+		else if(n >= 9 && m < 9)
+		{
+			ways = m;
+		}
+		else
+		{
+			ways = (9 - ((9 - n) + (9 - m)));
+		}
+		
+		if(ways == 1)
+		{
+			System.out.println("There is 1 way to get the sum 10.");
+		}
+		else
+		{
+			if(ways < 0)
+			{
+				ways = 0;
+			}
+			System.out.println("There are " + ways + " ways to get the sum 10.");
+		}
+		
+	}
+}
