@@ -1,0 +1,19 @@
+import java.util.*;
+import java.io.*;
+
+public class CCC {
+
+	
+	public static void main (String[] args)
+	{
+		Scanner sc = new Scanner(System.in);
+		int[] mains = {0, 461, 431, 420, 0};
+		int[] sides = {0, 100, 57, 70, 0};
+		int[] drinks = {0, 130, 160, 118, 0};
+		int[] desserts = {0, 167, 266, 75, 0};
+		
+		
+		System.out.println( "Your total Calorie count is " + (mains[sc.nextInt()] + sides[sc.nextInt()] + drinks[sc.nextInt()] + desserts[sc.nextInt()]) + ".");
+
+	}
+}
