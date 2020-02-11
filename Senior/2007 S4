@@ -1,0 +1,58 @@
+import java.util.*;
+public class Main {
+
+	static HashMap<Integer, LinkedList<Integer>> graph = new HashMap<Integer, LinkedList<Integer>>();
+	static int n;
+	public static void main(String[] args) {
+		Scanner sc = new Scanner(System.in);
+		n = sc.nextInt();
+		
+		for(int i = 0; i < n; i ++)
+		{
+			graph.put(i, new LinkedList<Integer>());
+		}
+		
+		
+		/////////////adding the edges to graph
+		int temp1;
+		int temp2;
+		while(true)
+		{
+			temp1 = sc.nextInt() - 1;
+			temp2 = sc.nextInt() - 1;
+			
+			if(temp1 == -1 && temp2 == -1)
+			{
+				break;
+			}
+			
+			graph.get(temp1).add(temp2);
+		}
+		
+		System.out.println(solve());
+	}
+	
+	
+	public static int solve()
+	{
+		int[] ways = new int[n];
+		//points now labeled 0 to n - 1 inclusive
+		
+		Queue<Integer> toDo = new LinkedList<Integer>();
+		toDo.add(0);
+		
+		ways[0] = 1;
+		
+		
+		for(int i = 0; i < n - 1; i ++)  //no need to check the last one
+		{
+			for(int child: graph.get(i))
+			{
+				ways[child] += ways[i];
+			}
+		}
+		
+		return(ways[n - 1]);
+	}
+
+}
