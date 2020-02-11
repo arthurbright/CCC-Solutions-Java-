@@ -1,0 +1,35 @@
+import java.util.*;
+public class Main {
+
+	
+	static HashMap<Character, Character> cToP = new HashMap<Character, Character>();
+	
+	public static void main(String[] args) {
+		Scanner sc = new Scanner(System.in);
+		char[] plain = sc.nextLine().toCharArray();
+		char[] cipher = sc.nextLine().toCharArray();
+		
+		for(int i = 0; i < plain.length; i ++)
+		{
+			cToP.put(cipher[i], plain[i]);
+		}
+		
+		String inp = sc.nextLine();
+		String decoded = "";
+		for(int i = 0; i < inp.length(); i ++)
+		{
+			char c = inp.charAt(i);
+			if(cToP.containsKey(c))
+			{
+				decoded += cToP.get(c);
+			}
+			else
+			{
+				decoded += ".";
+			}
+		}
+		
+		System.out.println(decoded);
+	}
+
+}
