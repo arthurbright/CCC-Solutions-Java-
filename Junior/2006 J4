@@ -1,0 +1,121 @@
+import java.util.*;
+public class Main {
+
+	//directed graph
+	static HashMap<Integer, LinkedList<Integer>> graph = new HashMap<Integer, LinkedList<Integer>>();
+	
+	
+	public static void main(String[] args) {
+		Scanner sc = new Scanner(System.in);
+		for(int i = 1; i <= 7; i ++)
+		{
+			graph.put(i, new LinkedList<Integer>());
+		}
+		
+		graph.get(1).add(7);
+		graph.get(1).add(4);
+		graph.get(2).add(1);
+		graph.get(3).add(4);
+		graph.get(3).add(5);
+		
+		
+		int temp1;
+		int temp2;
+		while(true)
+		{
+			temp1 = sc.nextInt();
+			temp2 = sc.nextInt();
+			if(temp1 == temp2 && temp1 == 0)
+			{
+				break;
+			}
+			else
+			{
+				graph.get(temp1).add(temp2);
+			}
+		}
+		
+		ArrayList<Integer> d = getOrder();
+		if(d == null)
+		{
+			System.out.println("Cannot complete these tasks. Going to bed.");
+		}
+		else
+		{
+			for(int i: d)
+			{
+				System.out.print(i + " ");
+			}
+		}
+		
+		
+		
+	}
+	
+	
+	
+	//do the directed graph thing (i forget what its called)
+	public static ArrayList<Integer> getOrder()
+	{
+		boolean end = false;
+		int numRemoved = 0;
+		ArrayList<Integer> list = new ArrayList<Integer>();
+		TreeSet<Integer> toRemove = new TreeSet<Integer>();
+		int removing;
+		while(true)
+		{
+			end = true;
+			toRemove.clear();
+			for(int i = 1; i <= 7; i ++) {
+				//if it has already been removed, skip
+				if(list.contains(i))
+				{
+					continue;
+				}
+				
+				//if it has not been removed, check for no parents
+				if(!hasParents(i))
+				{
+					toRemove.add(i);
+				}
+			}
+			
+			//now, the set of nodes without a parent has been made. remove one by one
+			if(!toRemove.isEmpty())
+			{
+				end = false;
+				
+			}
+
+			if(end)
+			{
+				return null;
+			}
+			
+			removing = toRemove.pollFirst();
+			list.add(removing);
+			numRemoved ++;
+			graph.get(removing).clear();
+			
+			
+			if(numRemoved == 7)
+			{
+				return list;
+			}
+		}
+		
+	}
+	
+	//helper method
+	public static boolean hasParents(int k)
+	{
+		for(int i = 1; i <= 7; i ++)
+		{
+			if(graph.get(i).contains(k))
+			{
+				return true;
+			}
+		}
+		return false;
+	}
+}
