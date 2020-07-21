@@ -1,0 +1,189 @@
+#include <iostream>
+#include <cmath>
+#include <map>
+#include <vector>
+#include <algorithm>
+#include <queue>
+#include <stack>
+#include <list>
+
+using namespace std;
+
+
+int main()
+{
+    int t;
+    cin >> t;
+
+    int r, c;
+    int row, col, siz, steps;
+    bool visited[20][20];
+    char grid[20][20];
+    string rowContent;
+
+
+    queue<pair<int, int>> next;
+
+    pair<int, int> p;
+
+    for(int i = 0; i < t; i ++)
+    {
+        //individual case
+        cin >> r;
+        cin >> c;
+
+
+
+        //getting the content
+
+        for(int k = 0; k < r; k ++)
+        {
+            cin >> rowContent;
+            for(int j = 0; j < c; j ++)
+            {
+                grid[k][j] = rowContent[j];
+            }
+        }
+
+        if(grid[r- 1][c - 1] == '*')
+        {
+            cout << -1 << endl;
+            continue;
+        }
+
+
+
+        visited[0][0] = true;
+
+
+
+
+        for(int o = 0; o < r; o ++)
+        {
+            for(int p = 0; p < c; p ++)
+            {
+                visited[o][p] = false;
+            }
+
+        }
+
+
+
+
+
+
+
+
+
+
+
+        //////////////
+        while(next.size() > 0)
+        {
+            next.pop();
+        }
+
+
+        p.first = 0;
+        p.second = 0;
+        next.push(p);
+
+        steps = 0;
+
+        while(!next.empty())
+        {
+            //EACH LAYER
+            siz = next.size();
+            steps ++;
+
+
+            for(int k = 0; k < siz; k ++)
+            {
+                /////////////////////////EACH SPOT
+                p = next.front();
+                next.pop();
+
+                row = p.first;
+                col = p.second;
+
+                visited[row][col] = true;
+
+
+
+
+
+
+
+                //end case
+                if(row == r - 1 && col == c - 1)
+                {
+                    cout << steps << endl;
+                    goto finish;
+                }
+
+
+                //////add next spots to the next list
+                //vertical case
+                if(grid[row][col] == '|' || grid[row][col] == '+')
+                {
+                    if(row - 1 >= 0 && !visited[row - 1][col] && grid[row - 1][col] != '*')
+                    {
+                        p.first = row - 1;
+                        p.second = col;
+                        next.push(p);
+                        visited[row - 1][col] = true;
+                    }
+
+                    if(row + 1 < r && !visited[row + 1][col] && grid[row + 1][col] != '*')
+                    {
+                        p.first = row + 1;
+                        p.second = col;
+                        next.push(p);
+                        visited[row + 1][col] = true;
+                    }
+                }
+                //horizontal case
+                if(grid[row][col] == '-' || grid[row][col] == '+')
+                {
+                    if(col - 1 >= 0 && !visited[row][col - 1] && grid[row][col - 1] != '*')
+                    {
+                        p.first = row;
+                        p.second = col - 1;
+                        next.push(p);
+                        visited[row][col - 1] = true;
+                    }
+
+                    if(col + 1 < c && !visited[row][col + 1] && grid[row][col + 1] != '*')
+                    {
+                        p.first = row;
+                        p.second = col + 1;
+                        next.push(p);
+                        visited[row][col + 1] = true;
+                    }
+                }
+            }
+        }
+
+        cout << -1 << endl;
+finish:
+    cout << "";
+
+        /*
+        for(int o = 0; o < r; o ++)
+        {
+            for(int p = 0; p < c; p ++)
+            {
+                if(visited[o][p])
+                {
+                    cout << 1;
+                }
+                else
+                {
+                    cout << 0;
+                }
+            }
+            cout << endl;
+        }
+    */
+    }
+}
