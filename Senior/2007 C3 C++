@@ -1,0 +1,79 @@
+#include <iostream>
+#include <cmath>
+#include <map>
+#include <vector>
+#include <algorithm>
+#include <queue>
+#include <stack>
+#include <list>
+
+using namespace std;
+
+
+int main()
+{
+   int n;
+   cin >> n;
+
+   int a, b;
+
+   map<int, int> graph;
+
+   for(int i = 0; i < n; i ++)
+   {
+       cin >> a;
+       cin >> b;
+
+       graph[a] = b;
+   }
+
+   while(true)
+   {
+       cin >> a;
+       cin >> b;
+       if(a == 0 && b == 0)
+       {
+           break;
+       }
+
+       //bfs??
+       int t = graph[a];
+       int steps = 0;
+       int finalsteps = -1;
+       bool loop = false;
+       while(true)
+       {
+
+
+           //cout << t << " after " << steps <<endl;
+           if(t == b && finalsteps == -1)
+           {
+               finalsteps = steps;
+               //cout << "FOUND"<< endl;
+           }
+           if(t == a)
+           {
+               loop = true;
+               break;
+           }
+
+            t = graph[t];
+            steps += 1;
+            if(steps > n + 1)
+            {
+                break;
+            }
+       }
+
+       if(loop && finalsteps >= 0)
+       {
+           cout << "Yes " << finalsteps << endl;
+
+       }
+       else
+       {
+           cout << "No" << endl;
+       }
+   }
+
+}
