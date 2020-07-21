@@ -1,0 +1,93 @@
+#include <iostream>
+#include <cmath>
+#include <map>
+#include <vector>
+#include <algorithm>
+#include <queue>
+#include <stack>
+
+using namespace std;
+
+class item
+{
+public:
+
+    int dimensions[3];
+
+    bool fitsIn(item i)
+    {
+        if(dimensions[0] <= i.dimensions[0] && dimensions[1] <= i.dimensions[1] && dimensions[2] <= i.dimensions[2])
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+
+    int volume()
+    {
+        return dimensions[0] * dimensions[1] * dimensions[2];
+    }
+};
+
+int main()
+{
+   int n;
+   cin >> n;
+
+   item boxes[n];
+
+   for(int i = 0; i < n; i ++)
+   {
+       item k;
+       cin >> k.dimensions[0];
+       cin >> k.dimensions[1];
+       cin >> k.dimensions[2];
+
+       sort(k.dimensions, k.dimensions + sizeof(k.dimensions)/sizeof(k.dimensions[0]));
+       boxes[i] = k;
+   }
+
+   int m;
+   cin >> m;
+
+
+
+
+   for(int i = 0; i < m; i ++)
+   {
+       item k;
+       cin >> k.dimensions[0];
+       cin >> k.dimensions[1];
+       cin >> k.dimensions[2];
+
+       sort(k.dimensions, k.dimensions + sizeof(k.dimensions)/sizeof(k.dimensions[0]));
+
+       int minn = 99999999999;
+       bool fits = false;
+       for(int j = 0; j < n; j ++)
+       {
+           if(k.fitsIn(boxes[j]))
+           {
+               fits = true;
+           }
+           if(k.fitsIn(boxes[j]) && boxes[j].volume() < minn)
+           {
+               minn = boxes[j].volume();
+           }
+       }
+       if(fits)
+       {
+           cout << minn << endl;
+       }
+       else
+       {
+           cout << "Item does not fit." << endl;
+       }
+
+
+   }
+
+}
